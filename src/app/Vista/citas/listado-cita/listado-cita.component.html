@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-lg  navbar-transparent border rounded" style="margin-top: 20px; margin-bottom: 20px;">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item ">
+                    <a class="nav-link active tamaño" aria-current="page" (click)="vistos()" ><span class="color">Visto</span></a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link active tamaño" aria-current="page" (click)="pendientes()" ><span class="color">No visto</span></a>
+                </li>
+                <li class="nav-item" >
+                    <a class="nav-link active tamaño" aria-current="page" (click)="obtenerCitasDia()" ><span class="color">Todos</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="row" *ngIf="mostrarTodo" >
+    <div class="col">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Dni</th>
+                    <th scope="col">Entrevistador</th>
+                    <th scope="col">Dia</th>
+                    <th scope="col">Hola</th>
+                    <th scope="col">Visto</th>
+                    <th scope="col"><span style="color: blue;">Editar</span>/<span style="color: red;">Eliminar</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cita of mostrarTodo">
+                    <ng-container *ngIf="cita.dniUsuario !== 'No hay usuario'; else disponible">
+                        <td><span style="color: green;">Ocupado</span></td>
+                    </ng-container>
+                    <ng-template #disponible>
+                        <td><span style="color: red;">Libre</span></td>
+                    </ng-template>
+                    <td>{{cita.dniUsuario}}</td>
+                    <td>{{cita.entrevistrador}}</td>
+                    <td>{{cita.diaDeEntevista}}</td>
+                    <td>{{cita.horaDeEntrevista}}</td>
+                    <ng-container *ngIf="!cita.visto; else visto">
+                        <td><span style="color: red;">No visto</span></td>
+                    </ng-container>
+                    <ng-template #visto>
+                        <td><span style="color: green;">Visto</span></td>
+                    </ng-template>
+                    <td>
+                        <i class="bi bi-pencil-square" routerLink="/Citas/detalle/{{cita.id}}">Editar</i>/
+                        <i class="bi bi-trash" (click)="eliminaCita(cita)">Eliminar</i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>  
+
